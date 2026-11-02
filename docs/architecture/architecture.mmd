@@ -1,4 +1,4 @@
-flowchart TD
+flowchart LR
     classDef edge     fill:#F59E0B,stroke:#1E293B,color:#1E293B,stroke-width:1px;
     classDef core     fill:#6366F1,stroke:#1E293B,color:#ffffff,stroke-width:1px;
     classDef data     fill:#10B981,stroke:#1E293B,color:#ffffff,stroke-width:1px;
@@ -41,22 +41,20 @@ flowchart TD
     end
 
     Desktop -->|stdio| Stdio
-    Remote -->|POST /mcp| Http
-    Config -.->|settings| Cli
-    Cli -->|starts| Stdio
-    Cli -->|starts| Http
-    Http --> Guard
+    Remote -->|POST /mcp| Guard
+    Guard -->|authorized| Http
+    Cli -.->|loads| Config
+    Cli -.->|starts| Stdio
+    Cli -.->|starts| Http
     Stdio -->|JSON-RPC| Server
-    Guard -->|authorized| Server
-    Server --> Zod
-    Zod -->|valid args| Tokenize
-    Zod -->|valid args| Bm25
-    Zod -->|valid args| Other
-    Bpe -.->|merges| Tokenize
-    Prices -.->|prices| Tokenize
+    Http -->|JSON-RPC| Server
+    Server -.->|schema check| Zod
+    Server -->|valid args| Tokenize
+    Server -->|valid args| Bm25
+    Server -->|valid args| Other
+    Tokenize -.->|reads| Bpe
+    Tokenize -.->|reads| Prices
     Bm25 -->|directory| Loader
-    Loader -.->|realpath containment| Root
+    Loader -.->|contained reads| Root
     Server -.->|latency, errors| Metrics
     Server --> Resources
-    Prices -.-> Resources
-    Metrics -.->|Prometheus text| Http
