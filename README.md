@@ -344,6 +344,18 @@ Every tool benchmarked on synthetic, seeded inputs.
   <img src="docs/demo/benchmark.gif" alt="Every tool benchmarked on synthetic, seeded inputs" width="860">
 </p>
 
+Speaking MCP over stdio: the initialize handshake, then the tool list.
+
+<p align="center">
+  <img src="docs/demo/stdio.gif" alt="Speaking MCP over stdio: the initialize handshake, then the tool list" width="860">
+</p>
+
+Calling prompt_injection_scan over stdio on an exfiltration attempt.
+
+<p align="center">
+  <img src="docs/demo/scan.gif" alt="Calling prompt_injection_scan over stdio on an exfiltration attempt" width="860">
+</p>
+
 ## Design decisions
 
 - Built on the official MCP TypeScript SDK with a stateless HTTP mode ([ADR 0001](docs/adr/0001-official-sdk-and-stateless-http.md)).
