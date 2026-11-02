@@ -36,9 +36,14 @@ instructions. These tools answer them inside any MCP client, without leaving the
   <img src="docs/architecture/architecture.svg" alt="Architecture diagram" width="860">
 </p>
 
-Clients connect over stdio or stateless Streamable HTTP. The server validates every call with zod,
-runs one of five read-only tools, and records per-tool metrics. Filesystem access exists only
-through an allowlisted loader and is off by default. The full module map is in
+<sub>Legend: amber = entry points and external systems, indigo = core logic, green = data and state, blue = validation and control, grey = observability and outputs.</sub>
+
+`cli.ts` loads configuration (defaults, file, environment, flags) and starts either the stdio
+transport or stateless Streamable HTTP, where a bearer token and a loopback Host check guard
+`/mcp`. The server validates every call with zod, runs one of five read-only tools against the
+bundled BPE merge table and price table, and records per-tool metrics that are exposed at
+`/metrics` and as an MCP resource. Filesystem access exists only through an allowlisted loader
+and is off by default. The full module map is in
 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ### How each tool works

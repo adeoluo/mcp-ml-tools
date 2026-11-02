@@ -1,10 +1,62 @@
-flowchart LR
-  CL["MCP clients<br/>Claude Desktop, VS Code, Cursor"] -- stdio --> ST[stdio transport]
-  HC[HTTP client] -- "POST /mcp" --> HT["Streamable HTTP<br/>token and Host checks"]
-  ST --> SRV["McpServer<br/>zod schemas, error wrapping"]
-  HT --> SRV
-  SRV --> TL["Five read-only tools<br/>tokenize, bm25_search, eval_compare,<br/>json_schema_validate, prompt_injection_scan"]
-  SRV --> RS["Resources<br/>prices, docs, config, metrics"]
-  TL --> DOC["Allowlisted document loader"]
-  DOC --> FS[("documentRoot<br/>optional")]
-  SRV --> MET[Metrics]
+flowchart TD
+    classDef edge     fill:#F59E0B,stroke:#1E293B,color:#1E293B,stroke-width:1px;
+    classDef core     fill:#6366F1,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef data     fill:#10B981,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef control  fill:#0EA5E9,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef obs      fill:#CBD5E1,stroke:#1E293B,color:#1E293B,stroke-width:1px;
+
+    Desktop(["MCP clients<br/>Claude Desktop, VS Code, Cursor"]):::edge
+    Remote(["HTTP client<br/>POST /mcp"]):::edge
+
+    subgraph Io["Interfaces (cli.ts, transports)"]
+        direction TB
+        Cli["cli.ts<br/>flags, selects stdio or HTTP"]:::edge
+        Config["config.ts<br/>defaults, file, env, flags"]:::control
+        Stdio["stdio transport"]:::core
+        Http["http.ts Streamable HTTP<br/>stateless, /mcp /healthz /metrics"]:::core
+        Guard["Bearer token and<br/>loopback Host check"]:::control
+    end
+
+    subgraph Core["Core logic (server.ts and src/tools)"]
+        direction TB
+        Server["McpServer<br/>error wrapping, timing"]:::core
+        Zod["zod input schemas<br/>reject malformed calls"]:::control
+        Tokenize["tokenize<br/>byte-level BPE, cost estimate"]:::core
+        Bm25["bm25_search<br/>Okapi BM25, snippets"]:::core
+        Other["eval_compare, json_schema_validate,<br/>prompt_injection_scan"]:::core
+    end
+
+    subgraph State["Data and state (read-only)"]
+        direction TB
+        Bpe[("BPE merge table<br/>682-token vocabulary")]:::data
+        Prices[("Price table<br/>USD per million tokens")]:::data
+        Loader["documents.ts<br/>allowlisted loader"]:::control
+        Root[("documentRoot<br/>optional, off by default")]:::data
+    end
+
+    subgraph Obs["Observability and outputs"]
+        direction TB
+        Metrics["Metrics<br/>per-tool calls, errors, latency"]:::obs
+        Resources["MCP resources<br/>prices, docs, config, metrics"]:::obs
+    end
+
+    Desktop -->|stdio| Stdio
+    Remote -->|POST /mcp| Http
+    Config -.->|settings| Cli
+    Cli -->|starts| Stdio
+    Cli -->|starts| Http
+    Http --> Guard
+    Stdio -->|JSON-RPC| Server
+    Guard -->|authorized| Server
+    Server --> Zod
+    Zod -->|valid args| Tokenize
+    Zod -->|valid args| Bm25
+    Zod -->|valid args| Other
+    Bpe -.->|merges| Tokenize
+    Prices -.->|prices| Tokenize
+    Bm25 -->|directory| Loader
+    Loader -.->|realpath containment| Root
+    Server -.->|latency, errors| Metrics
+    Server --> Resources
+    Prices -.-> Resources
+    Metrics -.->|Prometheus text| Http
