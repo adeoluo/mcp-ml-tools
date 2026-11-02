@@ -334,6 +334,16 @@ keys are rejected. Example ([examples/mcp-ml-tools.config.json](examples/mcp-ml-
 
 Price entries replace a built-in entry with the same `model` name or add a new one.
 
+### Demos
+
+Recorded from real runs with [vhs](https://github.com/charmbracelet/vhs); each tape is in `docs/demo/`.
+
+Every tool benchmarked on synthetic, seeded inputs.
+
+<p align="center">
+  <img src="docs/demo/benchmark.gif" alt="Every tool benchmarked on synthetic, seeded inputs" width="860">
+</p>
+
 ## Design decisions
 
 - Built on the official MCP TypeScript SDK with a stateless HTTP mode ([ADR 0001](docs/adr/0001-official-sdk-and-stateless-http.md)).
