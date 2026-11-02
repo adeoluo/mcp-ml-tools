@@ -1,0 +1,10 @@
+flowchart LR
+  CL["MCP clients<br/>Claude Desktop, VS Code, Cursor"] -- stdio --> ST[stdio transport]
+  HC[HTTP client] -- "POST /mcp" --> HT["Streamable HTTP<br/>token and Host checks"]
+  ST --> SRV["McpServer<br/>zod schemas, error wrapping"]
+  HT --> SRV
+  SRV --> TL["Five read-only tools<br/>tokenize, bm25_search, eval_compare,<br/>json_schema_validate, prompt_injection_scan"]
+  SRV --> RS["Resources<br/>prices, docs, config, metrics"]
+  TL --> DOC["Allowlisted document loader"]
+  DOC --> FS[("documentRoot<br/>optional")]
+  SRV --> MET[Metrics]
