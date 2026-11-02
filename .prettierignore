@@ -6,3 +6,4 @@ src/tools/bpe-merges.ts
 package-lock.json
 .pack-check
 *.tgz
+CHANGELOG.md
