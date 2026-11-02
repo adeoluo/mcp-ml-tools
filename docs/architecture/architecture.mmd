@@ -5,56 +5,45 @@ flowchart LR
     classDef control  fill:#0EA5E9,stroke:#1E293B,color:#ffffff,stroke-width:1px;
     classDef obs      fill:#CBD5E1,stroke:#1E293B,color:#1E293B,stroke-width:1px;
 
-    Desktop(["MCP clients<br/>Claude Desktop, VS Code, Cursor"]):::edge
-    Remote(["HTTP client<br/>POST /mcp"]):::edge
-
-    subgraph Io["Interfaces (cli.ts, transports)"]
+    subgraph Interfaces["Interfaces"]
         direction TB
-        Cli["cli.ts<br/>flags, selects stdio or HTTP"]:::edge
-        Config["config.ts<br/>defaults, file, env, flags"]:::control
-        Stdio["stdio transport"]:::core
-        Http["http.ts Streamable HTTP<br/>stateless, /mcp /healthz /metrics"]:::core
-        Guard["Bearer token and<br/>loopback Host check"]:::control
+        Desktop(["MCP clients<br/>Claude, VS Code, Cursor"]):::edge
+        Remote(["HTTP client<br/>POST /mcp"]):::edge
+        Guard["Bearer token and<br/>Host header check"]:::control
+        Cli(["cli.ts<br/>selects stdio or HTTP"]):::edge
+        Transports["Transports<br/>stdio, Streamable HTTP"]:::core
+        Cli ~~~ Desktop ~~~ Remote --> Guard --> Transports
     end
 
-    subgraph Core["Core logic (server.ts and src/tools)"]
+    subgraph Core["Core logic"]
         direction TB
         Server["McpServer<br/>error wrapping, timing"]:::core
-        Zod["zod input schemas<br/>reject malformed calls"]:::control
-        Tokenize["tokenize<br/>byte-level BPE, cost estimate"]:::core
+        Zod["zod input schemas<br/>then tool dispatch"]:::control
+        Tokenize["tokenize<br/>byte-level BPE, cost"]:::core
         Bm25["bm25_search<br/>Okapi BM25, snippets"]:::core
-        Other["eval_compare, json_schema_validate,<br/>prompt_injection_scan"]:::core
+        Other["eval_compare, schema<br/>and injection checks"]:::core
+        Server --> Zod --> Tokenize ~~~ Bm25 ~~~ Other
     end
 
-    subgraph State["Data and state (read-only)"]
+    subgraph State["Data and config"]
         direction TB
+        Config["config.ts<br/>defaults, file, env"]:::control
         Bpe[("BPE merge table<br/>682-token vocabulary")]:::data
-        Prices[("Price table<br/>USD per million tokens")]:::data
+        Prices[("Price table<br/>USD per 1M tokens")]:::data
         Loader["documents.ts<br/>allowlisted loader"]:::control
-        Root[("documentRoot<br/>optional, off by default")]:::data
+        Root[("documentRoot<br/>optional, off")]:::data
+        Config ~~~ Bpe ~~~ Prices ~~~ Loader --> Root
     end
 
-    subgraph Obs["Observability and outputs"]
+    subgraph Obs["Outputs and metrics"]
         direction TB
-        Metrics["Metrics<br/>per-tool calls, errors, latency"]:::obs
-        Resources["MCP resources<br/>prices, docs, config, metrics"]:::obs
+        Results["Tool results<br/>JSON, structuredContent"]:::obs
+        Metrics["Metrics<br/>per-tool calls, latency"]:::obs
+        Resources["MCP resources<br/>prices, docs, config"]:::obs
+        Results ~~~ Metrics ~~~ Resources
     end
 
-    Desktop -->|stdio| Stdio
-    Remote -->|POST /mcp| Guard
-    Guard -->|authorized| Http
-    Cli -.->|loads| Config
-    Cli -.->|starts| Stdio
-    Cli -.->|starts| Http
-    Stdio -->|JSON-RPC| Server
-    Http -->|JSON-RPC| Server
-    Server -.->|schema check| Zod
-    Server -->|valid args| Tokenize
-    Server -->|valid args| Bm25
-    Server -->|valid args| Other
-    Tokenize -.->|reads| Bpe
-    Tokenize -.->|reads| Prices
-    Bm25 -->|directory| Loader
-    Loader -.->|contained reads| Root
-    Server -.->|latency, errors| Metrics
-    Server --> Resources
+    Interfaces -->|JSON-RPC| Core
+    Core -.->|reads| State
+    State ~~~ Obs
+    Core -->|results, timings| Obs
