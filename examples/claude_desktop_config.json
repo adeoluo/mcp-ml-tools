@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "mcp-ml-tools": {
+      "command": "mcp-ml-tools",
+      "env": {
+        "MCP_ML_TOOLS_DOCUMENT_ROOT": "/Users/you/notes"
+      }
+    }
+  }
+}

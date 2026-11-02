@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "mcp-ml-tools": {
+      "type": "stdio",
+      "command": "mcp-ml-tools",
+      "args": ["--document-root", "${workspaceFolder}/docs"]
+    }
+  }
+}

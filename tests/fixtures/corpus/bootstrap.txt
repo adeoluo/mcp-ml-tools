@@ -1,0 +1,2 @@
+The paired bootstrap resamples evaluation examples with replacement to estimate a confidence
+interval for the difference between two models.

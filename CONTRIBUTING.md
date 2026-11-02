@@ -1,0 +1,28 @@
+# Contributing
+
+Thank you for helping improve mcp-ml-tools.
+
+## Development setup
+
+```bash
+git clone https://github.com/adeoluo/mcp-ml-tools.git
+cd mcp-ml-tools
+npm ci
+npm run lint        # ESLint (typescript-eslint strict) and Prettier
+npm run typecheck   # tsc --strict over source, tests, and scripts
+npm test            # Vitest (builds dist/ first for the integration tests)
+npm run build       # compile to dist/
+```
+
+Use `npm run test:coverage` to check the coverage thresholds enforced in CI (90 percent lines).
+
+## Guidelines
+
+- Keep every tool deterministic and read-only. New randomness must take a seed.
+- Validate inputs with zod in `src/server.ts` and raise `ToolInputError` for problems the caller can
+  fix; those are returned as tool errors instead of crashing the server.
+- Never write to standard output from server code: on stdio it is the protocol channel.
+- Add unit tests for new logic, and extend `tests/integration.test.ts` when adding a tool.
+- If you change `src/tools/bpe-corpus.ts`, regenerate the vocabulary with
+  `npm run train-vocabulary`; a test checks that the committed merges match the corpus.
+- Pull requests must pass CI (lint, type check, tests with coverage, build, and CodeQL).

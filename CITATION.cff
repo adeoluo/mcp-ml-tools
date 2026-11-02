@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it."
+title: "mcp-ml-tools: a Model Context Protocol server for machine learning engineering"
+authors:
+  - family-names: "Ogunnoiki"
+    given-names: "Adeolu"
+version: 0.1.0
+date-released: 2026-11-01
+license: MIT
+url: "https://github.com/adeoluo/mcp-ml-tools"

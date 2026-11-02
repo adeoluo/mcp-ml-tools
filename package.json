@@ -1,0 +1,78 @@
+{
+  "name": "mcp-ml-tools",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server exposing machine learning engineering tools: BPE token counting and cost estimates, BM25 search, paired statistical comparison of evaluation scores, JSON Schema validation, and prompt-injection and PII scanning.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "llm",
+    "tools",
+    "evaluation",
+    "retrieval",
+    "bm25",
+    "tokenizer",
+    "json-schema",
+    "prompt-injection"
+  ],
+  "homepage": "https://github.com/adeoluo/mcp-ml-tools#readme",
+  "bugs": {
+    "url": "https://github.com/adeoluo/mcp-ml-tools/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adeoluo/mcp-ml-tools.git"
+  },
+  "license": "MIT",
+  "author": "Adeolu Ogunnoiki",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "mcp-ml-tools": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/make-executable.mjs",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . && prettier --check .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "benchmark": "npm run build && node scripts/benchmark.mjs",
+    "train-vocabulary": "npm run build && node scripts/train-vocabulary.mjs",
+    "start": "node dist/cli.js",
+    "prepack": "npm run clean && npm run build",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.20.5",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.0.5"
+  }
+}

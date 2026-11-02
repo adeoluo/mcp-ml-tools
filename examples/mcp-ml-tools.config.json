@@ -1,0 +1,17 @@
+{
+  "documentRoot": "./notes",
+  "documentExtensions": [".txt", ".md"],
+  "maxFiles": 500,
+  "maxFileBytes": 500000,
+  "prices": [
+    {
+      "model": "my-local-model",
+      "provider": "self-hosted",
+      "inputPerMillion": 0,
+      "outputPerMillion": 0,
+      "charactersPerToken": 3.8,
+      "tokenizerNote": "self-hosted; approximated from character count"
+    }
+  ],
+  "http": { "host": "127.0.0.1", "port": 3333 }
+}

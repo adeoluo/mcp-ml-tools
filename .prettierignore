@@ -1,0 +1,8 @@
+dist
+coverage
+node_modules
+.test-work
+src/tools/bpe-merges.ts
+package-lock.json
+.pack-check
+*.tgz
