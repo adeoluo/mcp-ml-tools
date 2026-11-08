@@ -17,13 +17,13 @@ describe("tokenize tool", () => {
   it("computes approximate tokens and cost from the price table", () => {
     const text = "a".repeat(400);
     const [estimate] = tokenize(
-      { text, models: ["gpt-4o"], expectedOutputTokens: 1000 },
+      { text, models: ["gpt-6.1-sol"], expectedOutputTokens: 1000 },
       DEFAULT_PRICES,
     ).estimates;
     expect(estimate?.approximateInputTokens).toBe(100);
-    expect(estimate?.inputCostUsd).toBeCloseTo(0.00025, 10);
+    expect(estimate?.inputCostUsd).toBeCloseTo(0.0002, 10);
     expect(estimate?.outputCostUsd).toBeCloseTo(0.01, 10);
-    expect(estimate?.totalCostUsd).toBeCloseTo(0.01025, 10);
+    expect(estimate?.totalCostUsd).toBeCloseTo(0.0102, 10);
   });
 
   it("counts characters by code point and bytes as UTF-8", () => {
@@ -54,7 +54,7 @@ describe("tokenize tool", () => {
       ToolInputError,
     );
     expect(() => tokenize({ text: "x", models: ["not-a-model"] }, DEFAULT_PRICES)).toThrow(
-      /gpt-4o/,
+      /gpt-6.1-sol/,
     );
   });
 });
