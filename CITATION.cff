@@ -1,10 +1,24 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it."
-title: "mcp-ml-tools: a Model Context Protocol server for machine learning engineering"
+message: "If you use this software, please cite it as below."
+type: software
+title: "mcp-ml-tools"
+abstract: "A Model Context Protocol server with machine learning engineering tools: BPE token counting and cost estimates, BM25 search, paired bootstrap and McNemar evaluation comparison, JSON Schema validation, and prompt-injection and PII scanning."
 authors:
   - family-names: "Ogunnoiki"
     given-names: "Adeolu"
-version: 0.1.0
-date-released: 2026-11-01
+version: "0.1.0"
+date-released: "2026-11-02"
 license: MIT
+repository-code: "https://github.com/adeoluo/mcp-ml-tools"
 url: "https://github.com/adeoluo/mcp-ml-tools"
+keywords:
+  - "evaluation"
+  - "llm"
+  - "mcp"
+  - "model-context-protocol"
+  - "retrieval"
+  - "tools"
+  - "typescript"
+  - "ai-agents"
+  - "claude"
+  - "mcp-server"
