@@ -1,6 +1,6 @@
 {
   "name": "mcp-ml-tools",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Model Context Protocol server exposing machine learning engineering tools: BPE token counting and cost estimates, BM25 search, paired statistical comparison of evaluation scores, JSON Schema validation, and prompt-injection and PII scanning.",
   "keywords": [
     "mcp",
