@@ -33,7 +33,7 @@ describe("configuration", () => {
         http: { host: "0.0.0.0", port: 8080 },
         prices: [
           {
-            model: "gpt-4o",
+            model: "gpt-6.1-sol",
             provider: "openai",
             inputPerMillion: 1,
             outputPerMillion: 2,
@@ -55,7 +55,7 @@ describe("configuration", () => {
     expect(config.maxFiles).toBe(5);
     expect(config.maxFileBytes).toBe(1234);
     expect(config.http).toMatchObject({ host: "0.0.0.0", port: 8080 });
-    expect(config.prices.find((price) => price.model === "gpt-4o")?.inputPerMillion).toBe(1);
+    expect(config.prices.find((price) => price.model === "gpt-6.1-sol")?.inputPerMillion).toBe(1);
     expect(config.prices.at(-1)?.model).toBe("my-model");
     expect(config.source).toBe(file);
   });

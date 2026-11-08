@@ -396,8 +396,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Limitations
 
-- Per-model token counts are approximations, and the default prices are illustrative values from
-  public pricing pages at the time of writing. Override them in the configuration file for budgeting.
+- Per-model token counts are approximations, and the default prices are the published list prices of
+  current OpenAI, Anthropic, Google and hosted open-weight models as of 2026-11-08 (sources in
+  [src/prices.ts](src/prices.ts)). Prices change; override them in the configuration file for budgeting.
 - `prompt_injection_scan` is a rule-based screen; paraphrased or encoded attacks can evade it.
 - `bm25_search` builds its index per call, which suits corpora up to a few thousand documents
   ([benchmarks](docs/BENCHMARKS.md)), not large collections.

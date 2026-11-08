@@ -58,7 +58,7 @@ describe("MCP server (in-memory transport)", () => {
     const result = structured(
       await session.client.callTool({
         name: "tokenize",
-        arguments: { text: "hello world", models: ["gpt-4o"] },
+        arguments: { text: "hello world", models: ["gpt-6.1-sol"] },
       }),
     );
     expect((result.estimates as unknown[]).length).toBe(1);
@@ -148,7 +148,7 @@ describe("MCP server (in-memory transport)", () => {
     ]);
     const prices = await session.client.readResource({ uri: "mltools://prices" });
     const priceBody = JSON.parse((prices.contents[0] as { text: string }).text);
-    expect(priceBody.models.some((model: { model: string }) => model.model === "gpt-4o")).toBe(
+    expect(priceBody.models.some((model: { model: string }) => model.model === "gpt-6.1-sol")).toBe(
       true,
     );
     const docs = await session.client.readResource({ uri: "mltools://docs/tools" });

@@ -12,7 +12,7 @@ and cost for every model in the price table (character-based approximation).
 - \`expectedOutputTokens\` (integer, default 0): adds output cost
 - \`includeTokenIds\` (boolean, default true), \`maxTokenIds\` (integer, default 2000)
 
-Example: \`{"text": "Hello, world!", "models": ["gpt-4o"], "expectedOutputTokens": 200}\`
+Example: \`{"text": "Hello, world!", "models": ["gpt-6.1-sol"], "expectedOutputTokens": 200}\`
 
 ## bm25_search
 Okapi BM25 (k1 = 1.2, b = 0.75 by default, Lucene inverse document frequency) over inline documents
