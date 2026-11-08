@@ -1,43 +1,10 @@
 # Architecture
 
-```mermaid
-flowchart LR
-    subgraph Clients
-        CD[Claude Desktop]
-        VS[VS Code]
-        CU[Cursor]
-        HC[HTTP client]
-    end
+<p align="center">
+  <img src="architecture/process.svg" alt="Architecture diagram" width="860">
+</p>
 
-    subgraph Process["mcp-ml-tools process"]
-        CLI["cli.ts<br/>flags, configuration"]
-        STDIO[StdioServerTransport]
-        HTTP["http.ts<br/>Streamable HTTP, stateless<br/>/mcp /healthz /metrics"]
-        SRV["server.ts<br/>McpServer: zod schemas,<br/>error wrapping, timing"]
-        subgraph Tools
-            TOK["tokenize<br/>byte-level BPE + price table"]
-            BM["bm25_search<br/>Okapi BM25 index"]
-            EV["eval_compare<br/>paired bootstrap, McNemar"]
-            JS["json_schema_validate<br/>Ajv + formats"]
-            PI["prompt_injection_scan<br/>regular expression rules"]
-        end
-        RES["Resources<br/>prices, tool documentation,<br/>configuration, metrics"]
-        DOCS["documents.ts<br/>allowlisted loader"]
-        MET[Metrics]
-    end
-
-    FS[("documentRoot<br/>(optional)")]
-
-    CD & VS & CU -- stdio --> STDIO
-    HC -- POST /mcp --> HTTP
-    CLI --> STDIO & HTTP
-    STDIO & HTTP --> SRV
-    SRV --> TOK & BM & EV & JS & PI
-    SRV --> RES
-    SRV --> MET
-    BM --> DOCS
-    DOCS -- realpath + containment check --> FS
-```
+<sub>Legend: amber = entry points and external systems, indigo = core logic, green = data and state, blue = validation and control, grey = observability and outputs.</sub>
 
 ## Request flow
 
