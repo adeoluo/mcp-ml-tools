@@ -17,12 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: [22, 24]
+        node: [26]
         include:
           - os: macos-latest
-            node: 22
+            node: 26
           - os: windows-latest
-            node: 22
+            node: 26
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -42,7 +42,7 @@ jobs:
           npm install --prefix .pack-check ./mcp-ml-tools-*.tgz
           node .pack-check/node_modules/mcp-ml-tools/dist/cli.js --version
       - name: Upload coverage report
-        if: matrix.os == 'ubuntu-latest' && matrix.node == 22
+        if: matrix.os == 'ubuntu-latest' && matrix.node == 26
         uses: actions/upload-artifact@v7
         with:
           name: coverage

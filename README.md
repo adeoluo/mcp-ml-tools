@@ -8,7 +8,7 @@
   <a href="https://github.com/adeoluo/mcp-ml-tools/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/adeoluo/mcp-ml-tools/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/adeoluo/mcp-ml-tools/releases"><img alt="Release" src="https://img.shields.io/github/v/release/adeoluo/mcp-ml-tools"></a>
   <img alt="TypeScript" src="https://img.shields.io/badge/typescript-5%20strict-3178C6">
-  <img alt="Node.js" src="https://img.shields.io/badge/node-22%20%7C%2024-339933">
+  <img alt="Node.js" src="https://img.shields.io/badge/node-26-339933">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green"></a>
 </p>
 
@@ -168,7 +168,7 @@ Arguments as an MCP client sends them, with abbreviated results.
 
 ## Quickstart
 
-Requires Node.js 22 or newer. The package is not published to the npm registry; install it from the
+Requires Node.js 26 or newer. The package is not published to the npm registry; install it from the
 GitHub release tarball or from source.
 
 #### From the release tarball (recommended)
@@ -391,7 +391,7 @@ ranking on a toy corpus with hand-computed scores, schema error paths, injection
 configuration loader, the allowlist (traversal and symbolic link escapes), the server over an
 in-memory transport, the HTTP transport (token, Host header, limits), and an integration test that
 spawns `dist/cli.js` over stdio with the SDK client, lists the tools, and calls each one. CI runs on
-Linux (Node 22 and 24), macOS, and Windows, then packs the tarball and runs the installed command.
+Linux, macOS, and Windows on Node 26, then packs the tarball and runs the installed command.
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Limitations
