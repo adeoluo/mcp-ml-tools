@@ -1,0 +1,30 @@
+flowchart LR
+    classDef edge     fill:#F59E0B,stroke:#1E293B,color:#1E293B,stroke-width:1px;
+    classDef core     fill:#6366F1,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef data     fill:#10B981,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef control  fill:#0EA5E9,stroke:#1E293B,color:#ffffff,stroke-width:1px;
+    classDef obs      fill:#CBD5E1,stroke:#1E293B,color:#1E293B,stroke-width:1px;
+    subgraph Clients["Clients"]
+        direction TB
+        CD["Claude Desktop"]:::edge ~~~ VS["VS Code"]:::edge
+        VS ~~~ CU["Cursor"]:::edge
+        CU ~~~ HC["HTTP client"]:::edge
+    end
+    subgraph Process["mcp-ml-tools process"]
+        direction TB
+        CLI["cli.ts<br/>flags, configuration"]:::edge --> TR["stdio or Streamable HTTP<br/>(http.ts, stateless)"]:::edge
+        TR --> SRV["server.ts McpServer<br/>zod schemas, error wrapping"]:::core
+        SRV --> RES["Resources<br/>prices, docs, configuration"]:::data
+        RES ~~~ MET["Metrics"]:::obs
+    end
+    subgraph Tools["Tools"]
+        direction TB
+        TOK["tokenize<br/>byte-level BPE + prices"]:::core ~~~ BM["bm25_search<br/>Okapi BM25 index"]:::core
+        BM --> DOCS["documents.ts<br/>allowlisted loader"]:::control
+        DOCS -->|realpath + containment| FS[("documentRoot<br/>(optional)")]:::data
+        FS ~~~ EV["eval_compare<br/>bootstrap, McNemar"]:::core
+        EV ~~~ JS["json_schema_validate<br/>Ajv + formats"]:::control
+        JS ~~~ PI["prompt_injection_scan<br/>regex rules"]:::control
+    end
+    Clients -->|stdio or POST /mcp| Process
+    Process -->|tool calls| Tools
