@@ -6,8 +6,8 @@ abstract: "A Model Context Protocol server with machine learning engineering too
 authors:
   - family-names: "Ogunnoiki"
     given-names: "Adeolu"
-version: "0.2.1"
-date-released: "2026-11-08"
+version: "0.2.2"
+date-released: "2026-11-09"
 license: MIT
 repository-code: "https://github.com/adeoluo/mcp-ml-tools"
 url: "https://github.com/adeoluo/mcp-ml-tools"

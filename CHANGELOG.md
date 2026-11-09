@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The file is generated
 from Conventional Commits by [git-cliff](https://git-cliff.org) when a release is cut
 with `make cut-release`.
 
+## [0.2.2] 2026-11-09
+
+### Bug fixes
+
+- Claude entries in the price table use the API model IDs (#9)
+
+### Documentation
+
+- Render every architecture diagram in the house style (#7)
+- Diagrams on white in the shared theme, make diagram for every diagram, and a self-contained Definition of Done (#8)
+
 ## [0.2.1] 2026-11-08
 
 ### Bug fixes
