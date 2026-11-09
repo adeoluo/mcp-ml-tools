@@ -1,4 +1,4 @@
-.PHONY: help changelog cut-release
+.PHONY: help changelog cut-release diagram
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-14s %s\n", $$1, $$2}'
@@ -31,3 +31,8 @@ changelog: ## Regenerate CHANGELOG.md from Conventional Commits (git-cliff)
 
 cut-release: ## Cut a release locally: version bump, changelog, tag, GitHub release (RELEASE_VERSION=vX.Y.Z optional)
 	scripts/release.sh $(RELEASE_VERSION)
+
+diagram: ## Render every diagram in docs/architecture to SVG (house theme, white background)
+	@for f in docs/architecture/*.mmd; do \
+		npx -y @mermaid-js/mermaid-cli -q -i "$$f" -o "$${f%.mmd}.svg" -c mermaid.config.json -b white || exit 1; \
+	done
