@@ -4,7 +4,7 @@
  * as illustrative defaults and override them in the configuration file for real budgeting.
  *
  * Sources, checked 2026-11-08: the OpenAI, Anthropic and Gemini API pricing pages (standard tier, short
- * context) and the Together AI serverless price list for the open-weight models. Claude Haiku 5.5 is the
+ * context) and the Together AI serverless price list for the open-weight models. Claude Haiku 5.5 (`claude-haiku-5-5`) is the
  * price for prompts up to 100,000 tokens. The Gemini rows are introductory prices that double on
  * 2026-12-01 (Gemini 4 Argon) and 2027-01-01 (Gemini 3.8 Flash).
  *
@@ -48,7 +48,7 @@ export const DEFAULT_PRICES: readonly ModelPrice[] = [
     tokenizerNote: "OpenAI tokenizer; approximated from character count",
   },
   {
-    model: "claude-opus-5.5",
+    model: "claude-opus-5-5",
     provider: "anthropic",
     inputPerMillion: 4,
     outputPerMillion: 20,
@@ -56,7 +56,7 @@ export const DEFAULT_PRICES: readonly ModelPrice[] = [
     tokenizerNote: "proprietary tokenizer; approximated from character count",
   },
   {
-    model: "claude-sonnet-5.5",
+    model: "claude-sonnet-5-5",
     provider: "anthropic",
     inputPerMillion: 2,
     outputPerMillion: 10,
@@ -64,7 +64,7 @@ export const DEFAULT_PRICES: readonly ModelPrice[] = [
     tokenizerNote: "proprietary tokenizer; approximated from character count",
   },
   {
-    model: "claude-haiku-5.5",
+    model: "claude-haiku-5-5",
     provider: "anthropic",
     inputPerMillion: 0.1,
     outputPerMillion: 0.5,
